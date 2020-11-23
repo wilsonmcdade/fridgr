@@ -11,9 +11,11 @@ from PIL import Image, ImageDraw, ImageFont
 
 # kivy imports
 import kivy
+from kivy.config import Config
 from kivy.app import App
 from kivy.uix.gridlayout import GridLayout
 from kivy.core.window import Window
+from kivy.lang.builder import Builder
 
 # Kivy app
 class fridgr(App):
@@ -52,5 +54,11 @@ class fridgr(App):
         # Puts item name on image
         d.text((labelsize[0]/2,2*(labelsize[1]/3)),message,anchor='mb',font=font)
 
-        qlr = BrotherQLRaster('QL-710')
+        qlr = BrotherQLRaster(model='QL-710W')
         create_label(qlr,im,'62',red=False,threshold=70,cut=True,rotate=0)
+
+if __name__ == '__main__':
+    Config.set('graphics','fullscreen','auto')
+    Config.set('graphics','window_state','maximized')
+
+    fridgr().run()
