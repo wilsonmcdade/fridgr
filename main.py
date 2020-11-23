@@ -24,7 +24,7 @@ class fridgr(App):
         Returns a widget structure.
     '''
     def build(self):
-        root = Builder.load_file('fridgr.kv'
+        root = Builder.load_file('fridgr.kv')
 
         Window.clearcolor = (.85,.85,.85,1)
         
@@ -46,7 +46,7 @@ class fridgr(App):
         d = ImageDraw.Draw(im)
         time = datetime.datetime.now()
         # Puts date on image
-        d.text((5,5),time.strftime('%a, %b %d, %Y', anchor='lb', font=font)
+        d.text((5,5),time.strftime('%a, %b %d, %Y'), anchor='lb', font=font)
         # Puts name on image
         d.text((labelsize[0]-5,5),user,anchor='rb',font=font)
         # Puts item name on image
