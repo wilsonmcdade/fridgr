@@ -48,8 +48,8 @@ class fridgr(App):
 		labelsize = (696,200)
 
 		# Creates text for image to be printed
-		font = ImageFont.truetype('fonts/Junicode-Regular.ttf', 48)
-		bigfont = ImageFont.truetype('fonts/Junicode-Regular.ttf', 90)
+		font = ImageFont.truetype('fonts/OstrichSans-Heavy.otf', 48)
+		bigfont = ImageFont.truetype('fonts/OstrichSans-Heavy.otf', 90)
 		im = Image.new('RGB',labelsize, 'white')
 		d = ImageDraw.Draw(im)
 		time = datetime.datetime.now()
