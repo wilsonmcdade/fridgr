@@ -1,12 +1,32 @@
-GridLayout:
-	cols: 3
-	rows: 2
-	Button:
-		background_normal: ''
-		background_color: .22,.3,.28,1
-		size_hint: (None,None)
-		width: 100
-		height: 50
-		text: 'Test'
-		on_press: app.printlabel('test','wilson')
+# TestApp.kv. Lets see if this works
+# Wilson McDade, wmcda.de
+
+BoxLayout:
+    orientation: 'horizontal'
+    FloatLayout:
+        size_hint: .1,1
+        Label:
+            text: "Left"
+        Button:
+            anchor_y: "top"
+            text: "Top"
+            pos_hint: {'top':1}
+            size_hint: 1,.2
+            multiselect: True 
+            touch_multiselect: True 
+   
+        Button:
+            anchor_y: "center"
+            text: "Center"
+            pos_hint: {'top':.8}
+            size_hint: 1,.2
+            multiselect: True 
+            touch_multiselect: True 
+ 
+    AnchorLayout:
+        size_hint: 1,1
+        anchor_x: "center"
+        Label:
+            text: "Fridgr"
+
 
