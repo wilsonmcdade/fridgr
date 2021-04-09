@@ -1,32 +1,60 @@
-# TestApp.kv. Lets see if this works
-# Wilson McDade, wmcda.de
+# fridgr.kv
+# This Kivy file describes the layout
+# @author Wilson McDade, wmcda.de
 
-BoxLayout:
-    orientation: 'horizontal'
-    FloatLayout:
-        size_hint: .1,1
+<HomeScreen>
+        name: "HomeScreen"
+
+        canvas:
+                Color:
+                        rgba: 1, 1, 1, 1
+                Rectangle:
+                        pos: self.pos
+                        size: self.size 
+
         Label:
-            text: "Left"
-        Button:
-            anchor_y: "top"
-            text: "Top"
-            pos_hint: {'top':1}
-            size_hint: 1,.2
-            multiselect: True 
-            touch_multiselect: True 
-   
-        Button:
-            anchor_y: "center"
-            text: "Center"
-            pos_hint: {'top':.8}
-            size_hint: 1,.2
-            multiselect: True 
-            touch_multiselect: True 
- 
-    AnchorLayout:
-        size_hint: 1,1
-        anchor_x: "center"
+                text:"HomeScreen"
+
+<NewLabel>
+        name: "NewLabel"
+
+        canvas:
+                Color:
+                        rgba: .8, .8, .8, .8
+                Rectangle:
+                        pos: self.pos
+                        size: self.size 
+
+
         Label:
-            text: "Fridgr"
+                text:"NewLabel"
+
+<AutoScan>
+        name: "AutoScan"
+
+        canvas:
+                Color:
+                        rgba: .1, .1, .1, .1
+                Rectangle:
+                        pos: self.pos
+                        size: self.size 
+
+        Label:
+                text:"AutoScan"
+
+<ItemLookup>
+        name: "ItemLookup"
+
+        canvas:
+                Color:
+                        rgba: .5, .5, .5, .5
+                Rectangle:
+                        pos: self.pos
+                        size: self.size 
+
+
+        Label:
+                text:"ItemLookup"
+
 
 
