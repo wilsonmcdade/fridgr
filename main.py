@@ -1,24 +1,29 @@
 # main.py for fridge mounted label maker with gui
-# @author Wilson McDade www.wmcda.de
+# @author Wilson McDade wmcda.de
 
 # general imports
 import datetime
 import logging
 import os
 
-# import printing
-from print_label import printlabel
+# local imports
+from print_label import printlabel, gen_preview, btn_printlabel
+from scanner import scan_fromhid, scan_fromstdin
 
 # kivy imports
-import kivy
 from kivy.config import Config
 from kivy.app import App
 from kivy.core.window import Window
 from kivy.lang.builder import Builder
 from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.floatlayout import FloatLayout
+from kivy.uix.relativelayout import RelativeLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.screenmanager import ScreenManager, Screen, NoTransition
+from kivy.config import Config
+from kivy.clock import Clock
+from kivy.uix.popup import Popup
+
 
 class HomeScreen(Screen):
     pass
@@ -35,6 +40,8 @@ class ItemLookup(Screen):
 class MainWindow(Screen):
     pass
 
+class PreviewWindow(RelativeLayout):
+    pass
 
 # Kivy app
 class fridgr(App):
@@ -42,36 +49,141 @@ class fridgr(App):
     '''
     Kivy build functio to loads the kv file and makes the window look
         pretty
-    Returns a widget structure.
+    #returns window root
     '''
     def build(self):
-        Window.clearcolor = (.85,.85,.85,1)
+        #Window.clearcolor = (.85,.85,.85,1)
         # Window.show_cursor = False
 
-        root = BoxLayout()
-        
-        root.add_widget(Builder.load_file('left.kv'))
 
-        smwindow = Builder.load_file('fridgr.kv')
+        self.config = {
+            'general':{
+            'api':"https://world.openfoodfacts.org/api/v0/product/{0}.json",
+            'tmp_folder':'tmp/'
+            },
+            'labels':{
+            'labelsizex': 696,
+            'labelsizey': 200,
+            'fontfile':'fonts/OstrichSans-Heavy.otf'
+            },
+            'printer':{
+            'model':'QL-710W',
+            'label':'62',
+            'backend':'linux_kernel',
+            'src':'file:///dev/usb/lp0'
+            }}
+
+        self.user = "Goose"
+        self.product_name = "Start Scanning"
+        self.barcode = "076808005844"
+        self.expiry = 0
+
+        self.showpreview = False
+
+        self.root = BoxLayout()
+        
+        self.root.add_widget(Builder.load_file('left.kv'))
+
+        smwindow = Builder.load_file('center.kv')
 
         self.sm = ScreenManager(transition=NoTransition())
         self.sm.add_widget(HomeScreen())
         self.sm.add_widget(NewLabel())
         self.sm.add_widget(AutoScan())
         self.sm.add_widget(ItemLookup())
-        root.add_widget(self.sm)
+        self.root.add_widget(self.sm)
 
         self.sm.current = 'HomeScreen'
 
-        root.add_widget(Builder.load_file('right.kv'))
+        self.root.add_widget(Builder.load_file('right.kv'))
 
-        return root
+        Clock.schedule_interval(lambda dt: self.update(),1)
+
+        return self.root
+
+    '''
+    updates label texts
+    '''
+    def update(self):
+
+        if self.sm.current == "NewLabel":
+            
+            # ids of current screen
+            ids=self.sm.get_screen(self.sm.current).ids
+
+            self.user = ids.usrspinr.text
+            self.expiry = ids.expspinr.text
+
+            ids.user_name.text = self.user
+            ids.prod_name.text = self.product_name
+
+            if self.showpreview:
+
+                filename = self.config['general']['tmp_folder']+"preview.jpg"
+                gen_preview(self,self.get_printinfo(),filename)
+                ids.previewimg.reload()
+
+    '''
+    shows preview popup
+    '''
+    def popup_preview(self):
+        show = PreviewWindow()
+
+        popupWindow = Popup(title="Preview Window",content=show,\
+            size_hint=(None,None),size=(400,400))
+
+        popupWindow.bind(on_dismiss=self.popup_preview_dismiss)
+
+        popupWindow.open()
+
+    '''
+    dismisses popup
+    '''
+    def popup_preview_dismiss(self, *args):
+        self.showpreview = False;
+
+        return False
+
+    '''
+    makes printinfo for printlabel function
+    @return printinfo json object
+    '''
+    def get_printinfo(self):
+        printinfo = {
+            'expiry'    :self.expiry,
+            'user'      :self.user,
+            'prod_name' :self.product_name,
+            'barcode'   :self.barcode
+            }
+
+        return printinfo
 
     '''
     btnprs interprets a buttonpress
     '''
     def btnprs(self, button):
-       pass 
+        
+        if button == "printlabel":
+            btn_printlabel(self)
+
+        elif button == "preview":
+            self.show_preview = True
+
+
+            filename = self.config['general']['tmp_folder']+"preview.jpg"
+
+            gen_preview(self,self.get_printinfo(),filename)
+
+            self.popup_preview()   
+    
+
+    '''
+    scan function, opens input for scanning
+    '''
+    def scan(self):
+        
+        self.root.barcode = scan_fromhid() 
+
 
 if __name__ == '__main__':
     Config.set('graphics','fullscreen','false')

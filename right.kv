@@ -4,26 +4,19 @@
 
 FloatLayout:
         size_hint:.1,1
-    
-        Spinner:
-                id: spnr
-                text: 'User'
-                values: {'Goose','Wilson','Saad','Dylan','Zack','Sam'}
-                pos_hint: {'top':.95,'right':1}
-                size_hint: 1,.1
 
         Button:
                 text: "Preview"
-                pos_hint: {'top':.4,'right':1}
-                size_hint: 1,.1
-                on_press: btnprs("preview")
+                pos_hint: {'top':.6,'right':1}
+                size_hint: 1,.2
+                on_press: app.btnprs("preview")
 
 
         Button:
-                text: "Print Label"
-                pos_hint: {'top':.3,'right':1}
-                size_hint: 1,.1
-                on_press: btnprs("printlabel")
+                text: "Print\nLabel "
+                pos_hint: {'top':.4,'right':1}
+                size_hint: 1,.2
+                on_press: app.btnprs("printlabel")
 
 
         Image:
