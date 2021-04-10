@@ -59,12 +59,13 @@ class fridgr(App):
         self.config = {
             'general':{
             'api':"https://world.openfoodfacts.org/api/v0/product/{0}.json",
-            'tmp_folder':'tmp/'
+            'tmp_folder':'../tmp/',
+            'kv_folder':'kv/'
             },
             'labels':{
             'labelsizex': 696,
             'labelsizey': 200,
-            'fontfile':'fonts/OstrichSans-Heavy.otf'
+            'fontfile':'../fonts/OstrichSans-Heavy.otf'
             },
             'printer':{
             'model':'QL-710W',
@@ -74,7 +75,7 @@ class fridgr(App):
             }}
 
         self.user = "Goose"
-        self.product_name = "Start Scanning"
+        self.product_name = "Bagels, stale"
         self.barcode = "076808005844"
         self.expiry = 0
 
@@ -82,9 +83,11 @@ class fridgr(App):
 
         self.root = BoxLayout()
         
-        self.root.add_widget(Builder.load_file('left.kv'))
+        self.root.add_widget(Builder.load_file(self.config['general']['kv_folder']\
+            +'left.kv'))
 
-        smwindow = Builder.load_file('center.kv')
+        smwindow = Builder.load_file(self.config['general']['kv_folder']+\
+            'center.kv')
 
         self.sm = ScreenManager(transition=NoTransition())
         self.sm.add_widget(HomeScreen())
@@ -94,8 +97,6 @@ class fridgr(App):
         self.root.add_widget(self.sm)
 
         self.sm.current = 'HomeScreen'
-
-        self.root.add_widget(Builder.load_file('right.kv'))
 
         Clock.schedule_interval(lambda dt: self.update(),1)
 
@@ -117,11 +118,13 @@ class fridgr(App):
             ids.user_name.text = self.user
             ids.prod_name.text = self.product_name
 
+            ids.previewing.text = str(self.showpreview)
+
             if self.showpreview:
 
                 filename = self.config['general']['tmp_folder']+"preview.jpg"
                 gen_preview(self,self.get_printinfo(),filename)
-                ids.previewimg.reload()
+                self.popupWindow.ids.previewimg.reload()
 
     '''
     shows preview popup
@@ -129,12 +132,12 @@ class fridgr(App):
     def popup_preview(self):
         show = PreviewWindow()
 
-        popupWindow = Popup(title="Preview Window",content=show,\
+        self.popupWindow = Popup(title="Preview Window",content=show,\
             size_hint=(None,None),size=(400,400))
 
-        popupWindow.bind(on_dismiss=self.popup_preview_dismiss)
+        self.popupWindow.bind(on_dismiss=self.popup_preview_dismiss)
 
-        popupWindow.open()
+        self.popupWindow.open()
 
     '''
     dismisses popup
@@ -164,11 +167,10 @@ class fridgr(App):
     def btnprs(self, button):
         
         if button == "printlabel":
-            btn_printlabel(self)
+            btn_printlabel(self,self.get_printinfo())
 
         elif button == "preview":
-            self.show_preview = True
-
+            self.showpreview = True
 
             filename = self.config['general']['tmp_folder']+"preview.jpg"
 

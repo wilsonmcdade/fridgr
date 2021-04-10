@@ -93,9 +93,9 @@ def gen_pilimg(self,printinfo):
 handles a print label button call
 generated barcode, label
 '''
-def btn_printlabel(self):
+def btn_printlabel(self,printinfo):
     
-    printlabel(self,gen_pilimg(self,printinfo),printinfo['barcode'])
+    printlabel(self,gen_pilimg(self,printinfo))
 
 '''
 Brother-ql can only print images so we have to create an image with PIL
@@ -103,13 +103,13 @@ Brother-ql can only print images so we have to create an image with PIL
 @param message: food type for the label
 @param user: person printing
 '''
-def printlabel(self,label,barcode):
+def printlabel(self,label):
 
     cnfg = self.config['printer']
 
     instructions = convert(
         qlr = BrotherQLRaster(cnfg['model']),
-        images = [label,barcode],
+        images = [label],
         label = cnfg['label'],
         rotate = 0,
         threshold = 70.0,

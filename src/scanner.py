@@ -84,9 +84,9 @@ generates barcode based from given input
 def gen_barcode(code="076808005844"):
     EAN = barcode.get_barcode_class('ean13')
     ean=EAN(u"076808005844",writer=ImageWriter())
-    ean.save('tmp/barcode')
+    ean.save('../tmp/barcode')
 
-    return "tmp/barcode.png"
+    return "../tmp/barcode.png"
 
 '''
 tests scanning functionality by printing scans to console

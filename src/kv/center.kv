@@ -35,8 +35,13 @@
                         size_hint: .1,.1
 
                 Label:
+                        id: previewing
+                        pos_hint: {'top':1.2,'right':.9}
+                        text: "Yeah"
+
+                Label:
                         id: prod_name
-                        pos_hint: {'top':1.2,'right':.4}
+                        pos_hint: {'top':1.2,'right':.8}
                         text: app.product_name
 
                 Label:
@@ -56,6 +61,20 @@
                         size_hint: .1,.1
                         pos_hint: {'top':.5,'right':.7}
                         values: ['1 Day','2 Days','4 Days','1 Week','2 Weeks','4 Weeks', 'Never']
+                        
+                Button:
+                        text: "Preview"
+                        pos_hint: {'top':.6,'right':1}
+                        size_hint: .1,.2
+                        on_press: app.btnprs("preview")
+
+
+                Button:
+                        text: "Print\nLabel "
+                        pos_hint: {'top':.4,'right':1}
+                        size_hint: .1,.2
+                        on_press: app.btnprs("printlabel")
+
 
 <AutoScan>
         name: "AutoScan"
@@ -91,4 +110,4 @@
         Image:
                 id: previewimg
                 pos_hint:{'top':1,'right':1}
-                source: "tmp/preview.jpg"
+                source: "../tmp/preview.jpg"
