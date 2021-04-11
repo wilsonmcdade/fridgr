@@ -82,9 +82,9 @@ generates barcode based from given input
 @returns PIL image of barcode 
 '''
 def gen_barcode(code="076808005844"):
-    EAN = barcode.get_barcode_class('ean13')
-    ean=EAN(u"076808005844",writer=ImageWriter())
-    ean.save('../tmp/barcode')
+    code39 = barcode.get_barcode_class('code39')
+    code39=CODE39(u"076808005844",writer=ImageWriter())
+    code39.save('../tmp/barcode')
 
     return "../tmp/barcode.png"
 

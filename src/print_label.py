@@ -52,7 +52,7 @@ def gen_pilimg(self,printinfo):
     labelsize = (cnfg['labelsizex'],cnfg['labelsizey'])
 
     fonts = {
-        'tiny': ImageFont.truetype(cnfg['fontfile'],24),
+        'tiny': ImageFont.truetype(cnfg['fontfile'],36),
         'norm': ImageFont.truetype(cnfg['fontfile'],48),
         'big': ImageFont.truetype(cnfg['fontfile'],90)
         }

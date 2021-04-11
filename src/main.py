@@ -19,6 +19,7 @@ from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.relativelayout import RelativeLayout
 from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.image import Image
 from kivy.uix.screenmanager import ScreenManager, Screen, NoTransition
 from kivy.config import Config
 from kivy.clock import Clock
@@ -41,7 +42,19 @@ class MainWindow(Screen):
     pass
 
 class PreviewWindow(RelativeLayout):
-    pass
+
+
+    def __init__(self, **kwargs):
+        super(PreviewWindow,self).__init__(**kwargs)
+
+        self.im = Image(pos_hint={'top':1,'right':1},source=\
+            "../tmp/preview.jpg")
+
+        self.add_widget(self.im)
+
+    def update_preview(self):
+        
+        self.im.reload()
 
 # Kivy app
 class fridgr(App):
@@ -52,10 +65,90 @@ class fridgr(App):
     #returns window root
     '''
     def build(self):
-        #Window.clearcolor = (.85,.85,.85,1)
-        # Window.show_cursor = False
+        Window.clearcolor = (.85,.85,.85,1)
+
+        self.user = "Goose"
+        self.product_name = "Bagels, stale"
+        self.barcode = "076808005844"
+        self.expiry = 0
+
+        self.autoscan = 0
+
+        self.showpreview = False
+
+        self.gen_config()
+
+        self.root = BoxLayout()
+        
+        self.root.add_widget(Builder.load_file(self.config['general']['kv_folder']\
+            +'left.kv'))
+
+        smwindow = Builder.load_file(self.config['general']['kv_folder']+\
+            'center.kv')
+
+        self.sm = ScreenManager(transition=NoTransition())
+        self.sm.add_widget(HomeScreen())
+        self.sm.add_widget(NewLabel())
+        self.sm.add_widget(AutoScan())
+        self.sm.add_widget(ItemLookup())
+        self.root.add_widget(self.sm)
+
+        self.sm.current = 'NewLabel'
+
+        Clock.schedule_interval(lambda dt: self.update(),1)
+
+        return self.root
+
+    '''
+    is this autoscanning?
+    '''
+    def isAutoScanning(self):
+        
+        if self.autoscan == False:
+            return "Auto\nScan"
+        else:
+            return "   Stop\nScanning"
+
+    '''
+    updates label texts
+    '''
+    def update(self):
+
+        if self.sm.current == "NewLabel":
+            
+            # ids of current screen
+            ids=self.sm.get_screen(self.sm.current).ids
+
+            self.user = ids.usrspinr.text
+            self.expiry = ids.expspinr.text
+
+            if self.showpreview:
 
 
+                filename = self.config['general']['tmp_folder']+"preview.jpg"
+                gen_preview(self,self.get_printinfo(),filename)
+    
+                #self.popup_preview()                
+
+                self.show.update_preview()
+
+        if self.sm.current == "AutoScan":
+            
+            ids = self.sm.get_screen(self.sm.current).ids
+
+            filename = self.config['general']['tmp_folder']+"preview.jpg"
+            gen_preview(self,self.get_printinfo(),filename)
+
+            self.show.update_preview()
+            ids.scanbtn.text = isAutoScanning();
+
+            
+
+    '''
+    makes config
+    '''
+    def gen_config(self):
+        
         self.config = {
             'general':{
             'api':"https://world.openfoodfacts.org/api/v0/product/{0}.json",
@@ -74,65 +167,13 @@ class fridgr(App):
             'src':'file:///dev/usb/lp0'
             }}
 
-        self.user = "Goose"
-        self.product_name = "Bagels, stale"
-        self.barcode = "076808005844"
-        self.expiry = 0
-
-        self.showpreview = False
-
-        self.root = BoxLayout()
-        
-        self.root.add_widget(Builder.load_file(self.config['general']['kv_folder']\
-            +'left.kv'))
-
-        smwindow = Builder.load_file(self.config['general']['kv_folder']+\
-            'center.kv')
-
-        self.sm = ScreenManager(transition=NoTransition())
-        self.sm.add_widget(HomeScreen())
-        self.sm.add_widget(NewLabel())
-        self.sm.add_widget(AutoScan())
-        self.sm.add_widget(ItemLookup())
-        self.root.add_widget(self.sm)
-
-        self.sm.current = 'HomeScreen'
-
-        Clock.schedule_interval(lambda dt: self.update(),1)
-
-        return self.root
-
-    '''
-    updates label texts
-    '''
-    def update(self):
-
-        if self.sm.current == "NewLabel":
-            
-            # ids of current screen
-            ids=self.sm.get_screen(self.sm.current).ids
-
-            self.user = ids.usrspinr.text
-            self.expiry = ids.expspinr.text
-
-            ids.user_name.text = self.user
-            ids.prod_name.text = self.product_name
-
-            ids.previewing.text = str(self.showpreview)
-
-            if self.showpreview:
-
-                filename = self.config['general']['tmp_folder']+"preview.jpg"
-                gen_preview(self,self.get_printinfo(),filename)
-                self.popupWindow.ids.previewimg.reload()
-
     '''
     shows preview popup
     '''
     def popup_preview(self):
-        show = PreviewWindow()
+        self.show = PreviewWindow()
 
-        self.popupWindow = Popup(title="Preview Window",content=show,\
+        self.popupWindow = Popup(title="Preview Window",content=self.show,\
             size_hint=(None,None),size=(400,400))
 
         self.popupWindow.bind(on_dismiss=self.popup_preview_dismiss)

@@ -8,16 +8,19 @@
 
         Label:
                 font_size: '30sp'
+                color:[0,0,0,1]
                 text:"Welcome to fridgr! fridgr is a fridge mounted\n        label maker and inventory system."
                 pos_hint: {'top':1.1}
 
         Label:
                 font_size: '30sp'
+                color:[0,0,0,1]
                 text:"Create a label by clicking New Label on the left sidebar."
                 pos_hint: {'top':1}
 
         Label:
                 font_size: '30sp'
+                color:[0,0,0,1]
                 text:"Start continuously scanning grocery items by\n      clicking Auto Scan on the left sidebar."
                 pos_hint: {'top':.9}
 
@@ -34,26 +37,12 @@
                         pos_hint: {'top':.95,'right':1}
                         size_hint: .1,.1
 
-                Label:
-                        id: previewing
-                        pos_hint: {'top':1.2,'right':.9}
-                        text: "Yeah"
-
-                Label:
-                        id: prod_name
-                        pos_hint: {'top':1.2,'right':.8}
-                        text: app.product_name
-
-                Label:
-                        id: user_name
-                        pos_hint: {'top':1.2,'right':.6}
-                        text: "Goose"
-                
                 Button:
                         text: "Scan"
                         on_press: app.scan()
                         pos_hint: {'top':.5,'right':.4}
                         size_hint:.1,.1
+
 
                 Spinner:
                         id: expspinr
@@ -80,15 +69,36 @@
         name: "AutoScan"
         id: autoscan
 
-        canvas:
-                Color:
-                        rgba: .1, .1, .1, .1
-                Rectangle:
-                        pos: self.pos
-                        size: self.size 
+        FloatLayout:
+                Spinner:
+                        id:usrspinr
+                        text: 'User'
+                        values: ['Goose','Duck','Squab','Squirrel']
+                        pos_hint: {'top':.95,'right':1}
+                        size_hint: .1,.1
 
-        Label:
-                text:"AutoScan"
+<PreviewWindow>
+        id: previewimg
+
+        Button:
+                id: scanbtn
+                text: "Auto\nScan"
+                on_press: app.btnprs("autoscan")
+                size_hint: .1,.1
+                pos_hint: {'top':.4,'right':.4}
+
+        Button:
+                text: "Idk Yet"
+                on_press: app.btnprs("Idk Yet")
+                size_hint: .1,.1
+                pos_hint: {'top':.4,'right':.6}
+
+        Spinner:
+                id: expspinr
+                text: 'Expiry'
+                size_hint: .1,.1
+                pos_hint: {'top':.4,'right':.5}
+                values: ['1 Day','2 Days','4 Days','1 Week','2 Weeks','4 Weeks', 'Never']
 
 <ItemLookup>
         name: "ItemLookup"
@@ -107,7 +117,4 @@
 
 <PreviewWindow>
         
-        Image:
-                id: previewimg
-                pos_hint:{'top':1,'right':1}
-                source: "../tmp/preview.jpg"
+

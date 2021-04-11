@@ -30,7 +30,7 @@ Checks that the reponse receieved is valid, also checks that certain
 '''
 def response_validator(response):
     
-    product = {
+    response = {
         'status':0,
         'name':"Name not set",
         'barcode':'Barcode not set'
@@ -38,16 +38,16 @@ def response_validator(response):
 
     status = response.status_code
 
-    product['status'] = status
+    response['status'] = status
 
     if status != 200:
         # Got error
-        product['name'] = "Error {0}: Can't lookup. Try again?".format(status)
+        resopnse['name'] = "Error {0}: Can't lookup. Try again?".format(status)
 
     else:
-        product['name'] = response['product_name']
+        response['name'] = response['product_name']
 
-    return product
+    return response
 
 '''
 Looks up the product according to barcode
