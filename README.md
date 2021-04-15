@@ -93,7 +93,11 @@ source venv/bin/activate
 ```
 pip3 install -r requirements.txt
 ```
-5. Run the app and enjoy 
+5. Move to src/ directory
+```
+cd src/
+```
+6. Run the app and enjoy 
 ```
 python3 main.py
 ```
