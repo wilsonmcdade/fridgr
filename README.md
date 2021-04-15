@@ -16,7 +16,7 @@ Fridgr is intended to be used in a household with a cavernous fridge in which th
 
 Fridgr lets users quickly scan and print labels as they file items away in the fridge, optionally set expiry times and reminders, and even lookup the history of certain individual items in the local database.   
 
-![stale bagels](https://user-images.githubusercontent.com/7411267/113955232-52f69d00-97e9-11eb-934e-c6929d11ee0c.png)
+![stale bagels](https://user-images.githubusercontent.com/7411267/114288921-79af1080-9a41-11eb-8107-35e120bfef5d.jpg)
 
 ## Local Development / Implementation
 
