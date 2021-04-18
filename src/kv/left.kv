@@ -8,21 +8,28 @@ FloatLayout:
         Button:
                 text: " New\nLabel"
                 pos_hint: {'top':.95}
-                size_hint: 2,.2
+                size_hint: 2,.15
                 on_press: app.sm.current='NewLabel'
 
         Button:
                 text: "Auto\nScan"
-                pos_hint: {'top':.75}
-                size_hint: 2,.2
+                pos_hint: {'top':.8}
+                size_hint: 2,.15
                 on_press: app.sm.current='AutoScan'
 
 
         Button:
                 text: "  Item\nLookup"
-                pos_hint: {'top':.55}
-                size_hint: 2,.2
+                pos_hint: {'top':.65}
+                size_hint: 2,.15
                 on_press: app.sm.current='ItemLookup'
+
+
+        Button:
+                text: "  Quick\nLabel"
+                pos_hint: {'top':.50}
+                size_hint: 2,.15
+                on_press: app.sm.current='QuickLabel'
 
 
 

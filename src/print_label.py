@@ -52,14 +52,14 @@ def gen_pilimg(self,printinfo):
     labelsize = (cnfg['labelsizex'],cnfg['labelsizey'])
 
     fonts = {
-        'tiny': ImageFont.truetype(cnfg['fontfile'],36),
-        'norm': ImageFont.truetype(cnfg['fontfile'],48),
-        'big': ImageFont.truetype(cnfg['fontfile'],90)
+        'tiny': ImageFont.truetype(cnfg['fontfile'],30),
+        'norm': ImageFont.truetype(cnfg['fontfile'],42),
+        'big': ImageFont.truetype(cnfg['fontfile'],70)
         }
 
     time = datetime.datetime.now()
     
-    barcode_file = gen_barcode(printinfo)
+    barcode_file = gen_barcode(printinfo['barcode'])
     
     expiry = time+get_expiry(printinfo['expiry'])
 
@@ -68,7 +68,7 @@ def gen_pilimg(self,printinfo):
     d = ImageDraw.Draw(im)
 
     # date
-    d.text((10,10),"Added:\t"+time.strftime('%a,%b,%d,%Y'), anchor='lt',fill='black',\
+    d.text((10,10),"Added: "+time.strftime('%a,%b,%d,%Y'), anchor='lt',fill='black',\
         font=fonts['tiny'])
 
     # user name
@@ -76,7 +76,7 @@ def gen_pilimg(self,printinfo):
         font=fonts['norm'])
 
     # expiry
-    d.text((10,40),"Expires:\t"+expiry.strftime('%a,%b,%d,%Y'),anchor='lt',\
+    d.text((10,40),"Expires: "+expiry.strftime('%a,%b,%d,%Y'),anchor='lt',\
         fill='black',font=fonts['tiny'])
 
     # item name

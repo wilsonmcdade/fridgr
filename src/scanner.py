@@ -6,6 +6,7 @@
 import sys
 import barcode
 from barcode.writer import ImageWriter
+import barcodenumber
 
 hid = {4: 'a', 5: 'b', 6: 'c', 7: 'd', 8: 'e', 9: 'f', 10: 'g', 11: 'h', 
         12: 'i', 13: 'j', 14: 'k', 15: 'l', 16: 'm', 17: 'n', 18: 'o', 
@@ -81,11 +82,13 @@ def scan_fromstdin():
 generates barcode based from given input
 @returns PIL image of barcode 
 '''
-def gen_barcode(code="076808005844"):
-    code39 = barcode.get_barcode_class('code39')
-    code39=CODE39(u"076808005844",writer=ImageWriter())
-    code39.save('../tmp/barcode')
+def gen_barcode(code):
 
+    CODE39 = barcode.get_barcode_class('Code39')
+    code39=CODE39(u"{0}".format(barcodenumber.check_code('CODE39',\
+        code),writer=ImageWriter()))
+
+    code39.save('../tmp/barcode')
     return "../tmp/barcode.png"
 
 '''

@@ -33,7 +33,7 @@
                 Spinner:
                         id: usrspinr
                         text: 'User'
-                        values: ['Goose','Wilson','Saad','Dylan','Zack','Sam']
+                        values: ['Goose','Duck','Squab','Squirrel']
                         pos_hint: {'top':.95,'right':1}
                         size_hint: .1,.1
 
@@ -77,28 +77,25 @@
                         pos_hint: {'top':.95,'right':1}
                         size_hint: .1,.1
 
-<PreviewWindow>
-        id: previewimg
+                Spinner:
+                        id: expspinr
+                        text: 'Expiry'
+                        size_hint: .1,.1
+                        pos_hint: {'top':.4,'right':.7}
+                        values: ['1 Day','2 Days','4 Days','1 Week','2 Weeks','4 Weeks', 'Never']
 
-        Button:
-                id: scanbtn
-                text: "Auto\nScan"
-                on_press: app.btnprs("autoscan")
-                size_hint: .1,.1
-                pos_hint: {'top':.4,'right':.4}
 
-        Button:
-                text: "Idk Yet"
-                on_press: app.btnprs("Idk Yet")
-                size_hint: .1,.1
-                pos_hint: {'top':.4,'right':.6}
+                PreviewImg:
+                        id: previewimg
+                        pos_hint: {'top':1.15,'right':1}
 
-        Spinner:
-                id: expspinr
-                text: 'Expiry'
-                size_hint: .1,.1
-                pos_hint: {'top':.4,'right':.5}
-                values: ['1 Day','2 Days','4 Days','1 Week','2 Weeks','4 Weeks', 'Never']
+
+                Button:
+                        id: scanbtn
+                        text: "Auto\nScan"
+                        on_press: app.btnprs("autoscan")
+                        size_hint: .1,.1
+                        pos_hint: {'top':.4,'right':.4}
 
 <ItemLookup>
         name: "ItemLookup"
@@ -114,7 +111,40 @@
         Label:
                 text:"ItemLookup"
 
+<QuickLabel>
+        name: "QuickLabel"
+        id: quicklabel
 
-<PreviewWindow>
-        
+        FloatLayout:
+                Spinner:
+                        id:prodspinr
+                        text: 'Bagels, Stale'
+                        values: ['Chicken','Fish','Eggs','Lettuce','Milk','Rice','Salsa']
+                        pos_hint: {'top':.4,'right':.45}
+                        size_hint: .1,.1
+
+                Spinner:
+                        id:usrspinr
+                        text: 'User'
+                        values: ['Wilson','Saad','Dylan','Sam','Zack','SamD','DS','ZQ','SDW','DW','WS','ZWSam']
+                        pos_hint: {'top':.4,'right':.55}
+                        size_hint: .1,.1
+
+                Spinner:
+                        id: expspinr
+                        text: 'Expiry'
+                        size_hint: .1,.1
+                        pos_hint: {'top':.4,'right':.65}
+                        values: ['1 Day','2 Days','4 Days','1 Week','2 Weeks','4 Weeks', 'Never']
+
+                PreviewImg:
+                        id: previewimg
+                        size: 1,1
+                        pos_hint: {'top':1.15,'right':1}
+
+                Button:
+                        text: "Print\nLabel "
+                        pos_hint: {'top':.4,'right':.95}
+                        size_hint: .1,.15
+                        on_press: app.btnprs("printlabel")
 
