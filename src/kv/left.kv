@@ -1,0 +1,41 @@
+# left.kv
+# Left sidebar of fridgr app
+# @author Wilson McDade wmcda.de
+
+FloatLayout:
+        size_hint: .05,1
+
+        Button:
+                text: " New\nLabel"
+                pos_hint: {'top':.95}
+                size_hint: 2,.15
+                on_press: app.sm.current='NewLabel'
+
+        Button:
+                text: "Auto\nScan"
+                pos_hint: {'top':.8}
+                size_hint: 2,.15
+                on_press: app.sm.current='AutoScan'
+
+
+        Button:
+                text: "  Item\nLookup"
+                pos_hint: {'top':.65}
+                size_hint: 2,.15
+                on_press: app.sm.current='ItemLookup'
+
+
+        Button:
+                text: "  Quick\nLabel"
+                pos_hint: {'top':.50}
+                size_hint: 2,.15
+                on_press: app.sm.current='QuickLabel'
+
+
+
+        Button:
+                text: " Go\nHome"
+                pos_hint: {'top':.25}
+                size_hint: 2,.2
+                on_press: app.sm.current='HomeScreen'
+

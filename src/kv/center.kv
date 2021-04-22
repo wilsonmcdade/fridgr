@@ -1,0 +1,150 @@
+# fridgr.kv
+# This Kivy file describes the layout
+# @author Wilson McDade, wmcda.de
+
+<HomeScreen>
+        name: "HomeScreen"
+        id: homescreen
+
+        Label:
+                font_size: '30sp'
+                color:[0,0,0,1]
+                text:"Welcome to fridgr! fridgr is a fridge mounted\n        label maker and inventory system."
+                pos_hint: {'top':1.1}
+
+        Label:
+                font_size: '30sp'
+                color:[0,0,0,1]
+                text:"Create a label by clicking New Label on the left sidebar."
+                pos_hint: {'top':1}
+
+        Label:
+                font_size: '30sp'
+                color:[0,0,0,1]
+                text:"Start continuously scanning grocery items by\n      clicking Auto Scan on the left sidebar."
+                pos_hint: {'top':.9}
+
+<NewLabel>
+        name: "NewLabel"
+        id: newlabel
+
+        FloatLayout:
+    
+                Spinner:
+                        id: usrspinr
+                        text: 'User'
+                        values: ['Goose','Duck','Squab','Squirrel']
+                        pos_hint: {'top':.95,'right':1}
+                        size_hint: .1,.1
+
+                Button:
+                        text: "Scan"
+                        on_press: app.scan()
+                        pos_hint: {'top':.5,'right':.4}
+                        size_hint:.1,.1
+
+
+                Spinner:
+                        id: expspinr
+                        text: 'Expiry'
+                        size_hint: .1,.1
+                        pos_hint: {'top':.5,'right':.7}
+                        values: ['1 Day','2 Days','4 Days','1 Week','2 Weeks','4 Weeks', 'Never']
+                        
+                Button:
+                        text: "Preview"
+                        pos_hint: {'top':.6,'right':1}
+                        size_hint: .1,.2
+                        on_press: app.btnprs("preview")
+
+
+                Button:
+                        text: "Print\nLabel "
+                        pos_hint: {'top':.4,'right':1}
+                        size_hint: .1,.2
+                        on_press: app.btnprs("printlabel")
+
+
+<AutoScan>
+        name: "AutoScan"
+        id: autoscan
+
+        FloatLayout:
+                Spinner:
+                        id:usrspinr
+                        text: 'User'
+                        values: ['Goose','Duck','Squab','Squirrel']
+                        pos_hint: {'top':.95,'right':1}
+                        size_hint: .1,.1
+
+                Spinner:
+                        id: expspinr
+                        text: 'Expiry'
+                        size_hint: .1,.1
+                        pos_hint: {'top':.4,'right':.7}
+                        values: ['1 Day','2 Days','4 Days','1 Week','2 Weeks','4 Weeks', 'Never']
+
+
+                PreviewImg:
+                        id: previewimg
+                        pos_hint: {'top':1.15,'right':1}
+
+
+                Button:
+                        id: scanbtn
+                        text: "Auto\nScan"
+                        on_press: app.btnprs("autoscan")
+                        size_hint: .1,.1
+                        pos_hint: {'top':.4,'right':.4}
+
+<ItemLookup>
+        name: "ItemLookup"
+
+        canvas:
+                Color:
+                        rgba: .5, .5, .5, .5
+                Rectangle:
+                        pos: self.pos
+                        size: self.size 
+
+
+        Label:
+                text:"ItemLookup"
+
+<QuickLabel>
+        name: "QuickLabel"
+        id: quicklabel
+
+        FloatLayout:
+                Spinner:
+                        id:prodspinr
+                        text: 'Bagels, Stale'
+                        values: ['Chicken','Fish','Eggs','Lettuce','Milk','Rice','Salsa']
+                        pos_hint: {'top':.4,'right':.45}
+                        size_hint: .1,.1
+
+                Spinner:
+                        id:usrspinr
+                        text: 'User'
+                        values: ['Wilson','Saad','Dylan','Sam','Zack','SamD','DS','ZQ','SDW','DW','WS','ZWSam']
+                        pos_hint: {'top':.4,'right':.55}
+                        size_hint: .1,.1
+
+                Spinner:
+                        id: expspinr
+                        text: 'Expiry'
+                        size_hint: .1,.1
+                        pos_hint: {'top':.4,'right':.65}
+                        values: ['1 Day','2 Days','4 Days','1 Week','2 Weeks','4 Weeks', 'Never']
+
+                PreviewImg:
+                        id: previewimg
+                        size: 1,1
+                        pos_hint: {'top':1.15,'right':1}
+
+                Button:
+                        text: "Print\nLabel "
+                        pos_hint: {'top':.4,'right':.95}
+                        size_hint: .1,.15
+                        on_press: app.btnprs("printlabel")
+
